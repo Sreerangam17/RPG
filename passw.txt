@@ -1,0 +1,64 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class RandomPasswordGenerator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Welcome to the Random Password Generator!");
+        
+        // Ask the user for password length
+        System.out.print("Enter the desired length of the password: ");
+        int length = scanner.nextInt();
+        scanner.nextLine(); // Consume newline left by nextInt()
+        
+        // Ask the user for complexity level
+        System.out.println("Choose complexity level:");
+        System.out.println("1. Only numbers (0-9)");
+        System.out.println("2. Numbers and lowercase letters (0-9, a-z)");
+        System.out.println("3. Numbers, lowercase, and uppercase letters (0-9, a-z, A-Z)");
+        System.out.print("Enter your choice (1/2/3): ");
+        int complexity = scanner.nextInt();
+        
+        // Generate the password based on user input
+        String password = generatePassword(length, complexity);
+        
+        // Output the generated password
+        System.out.println("Generated Password: " + password);
+        
+        scanner.close();
+    }
+    
+    public static String generatePassword(int length, int complexity) {
+        Random random = new Random();
+        StringBuilder password = new StringBuilder();
+        
+        String lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        String uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String numbers = "0123456789";
+        
+        String characters = "";
+        
+        switch (complexity) {
+            case 1:
+                characters = numbers;
+                break;
+            case 2:
+                characters = numbers + lowercaseLetters;
+                break;
+            case 3:
+                characters = numbers + lowercaseLetters + uppercaseLetters;
+                break;
+            default:
+                System.out.println("Invalid complexity level. Defaulting to level 1.");
+                characters = numbers;
+        }
+        
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            password.append(characters.charAt(randomIndex));
+        }
+        
+        return password.toString();
+    }
+}
